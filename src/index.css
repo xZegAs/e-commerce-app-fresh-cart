@@ -8,6 +8,10 @@
   @apply   ;
 } */
 
+body {
+  background-image: url("./assets/light-patten.svg");
+}
+
 .link {
   @apply block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-emerald-700 lg:p-0 [&.active]:text-white [&.active]:bg-emerald-700 lg:[&.active]:bg-transparent lg:[&.active]:text-emerald-700;
 }
