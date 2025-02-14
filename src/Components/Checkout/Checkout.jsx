@@ -13,9 +13,11 @@ export default function Checkout() {
   const navigate = useNavigate();
   const { userLogin } = useContext(UserContext);
   const [paymentMethod, setPaymentMethod] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function createCashOrder(values) {
     const toastId = toast.loading("Please wait...");
+    setIsLoading(true);
     try {
       const options = {
         url: `https://ecommerce.routemisr.com/api/v1/orders/${cartInfo.cartId}`,
@@ -29,11 +31,13 @@ export default function Checkout() {
 
       if (data.status === "success") {
         toast.success("Order created successfully");
+        setIsLoading(false);
         setTimeout(() => {
           navigate("/allorders", 2000);
         });
       }
     } catch (err) {
+      setIsLoading(false);
       console.log(err);
     } finally {
       toast.dismiss(toastId);
@@ -41,6 +45,7 @@ export default function Checkout() {
   }
 
   async function createOnlineOrder(values) {
+    setIsLoading(true);
     try {
       const options = {
         url: `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=${location.origin}`,
@@ -53,11 +58,13 @@ export default function Checkout() {
       let { data } = await axios.request(options);
       if (data.status == "success") {
         toast.loading("redirecting you to stripe...");
+        setIsLoading(false);
         setTimeout(() => {
           location.href = data.session.url;
         }, 2000);
       }
     } catch (err) {
+      setIsLoading(false);
       console.log(err);
     }
   }
@@ -224,14 +231,22 @@ export default function Checkout() {
                   onClick={() => setPaymentMethod("cash")}
                   className="w-full cursor-pointer text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
                 >
-                  Cash Order
+                  {isLoading ? (
+                    <i className="fa fa-spinner fa-spin"></i>
+                  ) : (
+                    "Cash On Delivery"
+                  )}
                 </button>
                 <button
                   type="submit"
                   onClick={() => setPaymentMethod("online")}
                   className="w-full cursor-pointer text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
                 >
-                  Online Payment
+                  {isLoading ? (
+                    <i className="fa fa-spinner fa-spin"></i>
+                  ) : (
+                    "Online Payment"
+                  )}
                 </button>
               </form>
             </div>

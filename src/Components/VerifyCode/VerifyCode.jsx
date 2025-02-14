@@ -115,7 +115,7 @@ export default function VerifyCode() {
                   {isLoading ? (
                     <i className="fas fa-circle-notch fa-spin"></i>
                   ) : (
-                    "Reset Password"
+                    "Verify"
                   )}
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
