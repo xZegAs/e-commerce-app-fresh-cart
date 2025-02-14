@@ -106,7 +106,7 @@ export default function ProductDetails() {
 
   return (
     <>
-      <PageTitleChange title={product?.title} />
+      <PageTitleChange title="Product Details" />
       {product ? (
         <section className="py-8 mt-16 bg-white md:py-16 dark:bg-gray-900 antialiased">
           <div className="max-w-screen-xl px-4 mx-auto 2xl:px-0">
