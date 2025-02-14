@@ -6,21 +6,29 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import logo from "../../assets/freshcart-logo.svg";
 import PageTitleChange from "../PageTitleChange/PageTitleChange";
+import toast from "react-hot-toast";
 
 export default function ResetPassword() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
   async function createNewPassword(values) {
+    const toastId = toast.loading("Please wait...");
     setIsLoading(true);
-    const { data } = await axios
-      .put(`https://ecommerce.routemisr.com/api/v1/auth/resetPassword`, values)
-      .then((res) => {
-        setIsLoading(false);
-
-        // console.log(res);
-        navigate("/login");
-      });
+    try {
+      const options = {
+        url: "https://ecommerce.routemisr.com/api/v1/auth/resetPassword",
+        method: "PUT",
+        data: values,
+      };
+      const { data } = await axios.request(options);
+      setIsLoading(false);
+      navigate("/login");
+    } catch (err) {
+      console.log(err);
+    } finally {
+      toast.dismiss(toastId);
+    }
   }
 
   const validationSchema = Yup.object().shape({

@@ -27,7 +27,7 @@ export default function CartContextProvider({ children }) {
         headers,
       })
       .then((res) => {
-        setCartId(res.data.data._id);
+        setCartId(res.data.cartId);
         return res;
       })
       .catch((err) => err);
@@ -86,18 +86,18 @@ export default function CartContextProvider({ children }) {
       .catch((err) => err);
   }
 
-  function checkout(cartId, url, formData) {
-    return axios
-      .post(
-        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=${url}`,
-        {
-          shippingAddress: formData,
-        },
-        { headers }
-      )
-      .then((res) => res)
-      .catch((err) => err);
-  }
+  // function checkout(cartId, url, formData) {
+  //   return axios
+  //     .post(
+  //       `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=${url}`,
+  //       {
+  //         shippingAddress: formData,
+  //       },
+  //       { headers }
+  //     )
+  //     .then((res) => res)
+  //     .catch((err) => err);
+  // }
 
   return (
     <CartContext.Provider
@@ -111,7 +111,7 @@ export default function CartContextProvider({ children }) {
         deleteProductFromWishlist,
         wishlist,
         setWishlist,
-        checkout,
+        // checkout,
         cartId,
       }}
     >

@@ -1,28 +1,80 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import style from "./Checkout.module.css";
 import { useFormik } from "formik";
 import logo from "../../assets/freshcart-logo.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../../Context/CartContext";
 import PageTitleChange from "../PageTitleChange/PageTitleChange";
-
+import toast from "react-hot-toast";
+import { UserContext } from "../../Context/UserContext";
+import axios from "axios";
 export default function Checkout() {
-  const { checkout, cartId } = useContext(CartContext);
+  const { cartId } = useContext(CartContext);
+  const navigate = useNavigate();
+  const { userLogin } = useContext(UserContext);
+  const [paymentMethod, setPaymentMethod] = useState(null);
+
+  async function createCashOrder(values) {
+    const toastId = toast.loading("Please wait...");
+    try {
+      const options = {
+        url: `https://ecommerce.routemisr.com/api/v1/orders/${cartInfo.cartId}`,
+        method: "POST",
+        headers: {
+          token: userLogin,
+        },
+        data: values,
+      };
+      const { data } = await axios.request(options);
+
+      if (data.status === "success") {
+        toast.success("Order created successfully");
+        setTimeout(() => {
+          navigate("/allorders", 2000);
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      toast.dismiss(toastId);
+    }
+  }
+
+  async function createOnlineOrder(values) {
+    try {
+      const options = {
+        url: `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=${location.origin}`,
+        method: "POST",
+        headers: {
+          token: userLogin,
+        },
+        data: values,
+      };
+      let { data } = await axios.request(options);
+      if (data.status == "success") {
+        toast.loading("redirecting you to stripe...");
+        setTimeout(() => {
+          location.href = data.session.url;
+        }, 2000);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   const formik = useFormik({
     initialValues: {
-      details: "",
-      phone: "",
-      city: "",
+      shippingAddress: {
+        details: "",
+        phone: "",
+        city: "",
+      },
     },
-    onSubmit: () =>
-      handleCheckout(cartId, "https://e-commerce-app-fresh-cart.vercel.app"),
+    onSubmit: (values) => {
+      if (paymentMethod == "cash") createCashOrder(values);
+      else createOnlineOrder(values);
+    },
   });
-
-  async function handleCheckout(cartId, url) {
-    const { data } = await checkout(cartId, url, formik.values);
-    window.location.href = data.session.url;
-  }
 
   return (
     <>
@@ -169,9 +221,17 @@ export default function Checkout() {
 
                 <button
                   type="submit"
+                  onClick={() => setPaymentMethod("cash")}
                   className="w-full cursor-pointer text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
                 >
-                  Checkout
+                  Cash Order
+                </button>
+                <button
+                  type="submit"
+                  onClick={() => setPaymentMethod("online")}
+                  className="w-full cursor-pointer text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
+                >
+                  Online Payment
                 </button>
               </form>
             </div>

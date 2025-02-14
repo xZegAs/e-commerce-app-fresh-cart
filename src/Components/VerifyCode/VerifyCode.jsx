@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import logo from "../../assets/freshcart-logo.svg";
 import PageTitleChange from "../PageTitleChange/PageTitleChange";
+import toast from "react-hot-toast";
 
 export default function VerifyCode() {
   const navigate = useNavigate();
@@ -13,30 +14,36 @@ export default function VerifyCode() {
 
   async function resetPassword(values) {
     setIsLoading(true);
-    const { data } = await axios
-      .post(
-        `https://ecommerce.routemisr.com/api/v1/auth/verifyResetCode`,
-        values
-      )
-      .then((res) => {
-        setIsLoading(false);
-        // console.log(res);
+    const toastId = toast.loading("Please wait...");
+    try {
+      const options = {
+        url: "https://ecommerce.routemisr.com/api/v1/auth/verifyResetCode",
+        method: "POST",
+        data: values,
+      };
+      const { data } = await axios.request(options);
+      if (data.status === "Success") {
         navigate("/resetpassword");
-      })
-      .catch((err) => console.log(err));
+        setIsLoading(false);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      toast.dismiss(toastId);
+    }
   }
 
-  // const validationSchema = Yup.object({
-  //   code: Yup.string()
-  //     .matches(/^[0-9]{6}$/, "Code must be numeric")
-  //     .required("Code is required"),
-  // });
+  const validationSchema = Yup.object({
+    code: Yup.string()
+      .matches(/^[0-9]{6}$/, "Code must be numeric")
+      .required("Code is required"),
+  });
 
   const formik = useFormik({
     initialValues: {
       resetCode: "",
     },
-    // validationSchema,
+    validationSchema,
     onSubmit: resetPassword,
   });
 

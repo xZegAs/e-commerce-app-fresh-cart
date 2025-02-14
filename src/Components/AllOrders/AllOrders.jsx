@@ -3,6 +3,7 @@ import style from "./AllOrders.module.css";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import PageTitleChange from "../PageTitleChange/PageTitleChange";
+import { Link } from "react-router-dom";
 
 export default function AllOrders() {
   const [userOrders, setUserOrders] = useState(null);
@@ -26,94 +27,95 @@ export default function AllOrders() {
   return (
     <>
       <PageTitleChange title="All Orders" />
-      {userOrders === null ? (
+      {userOrders ? (
+        <section>
+          {userOrders.map((order) => (
+            <div
+              key={order.id}
+              className="order p-2 border-2 border-gray-500 border-opacity-25 rounded-lg "
+            >
+              <header className="flex justify-between items-center">
+                <div>
+                  <h2 className="text-gray-500">Order ID</h2>
+                  <span className="text-lg font-semibold text-gray-700">
+                    #{order.id}
+                  </span>
+                </div>
+                <div className="space-x-2">
+                  {order.isPaid ? (
+                    <span className="font-cairo inline-block px-3 py-1 bg-lime-500 text-white font-semibold rounded-full">
+                      Paid
+                    </span>
+                  ) : (
+                    <span className="font-cairo inline-block px-3 py-1 bg-red-500 text-white font-semibold rounded-full">
+                      Unpaid
+                    </span>
+                  )}
+
+                  {order.isDelivered ? (
+                    <span className="font-cairo inline-block px-3 py-1 bg-lime-500 text-white font-semibold rounded-full">
+                      Delivered
+                    </span>
+                  ) : (
+                    <span className="font-cairo inline-block px-3 py-1 bg-blue-500 text-white font-semibold rounded-full">
+                      Pending Delivery
+                    </span>
+                  )}
+                </div>
+              </header>
+              <div className="mt-4 grid md:gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+                {order.cartItems.map((product) => (
+                  <div
+                    key={product._id}
+                    className="product-item overflow-hidden border-2 border-gray-400 border-opacity-30 p-4 rounded-lg"
+                  >
+                    <img
+                      className="w-full"
+                      src={product.product.imageCover}
+                      alt=""
+                    />
+                    <div className="p-2">
+                      <h3 className="text-lg font-semibold line-clamp-2">
+                        <Link to={`/productdetails/${product.product.id}`}>
+                          {product.product.title}
+                        </Link>
+                      </h3>
+                      <div className="flex justify-between items-center mt-2">
+                        <p className="font-semibold">
+                          <span className="font-bold underline mr-1">
+                            Count :
+                          </span>
+                          {product.count}
+                        </p>
+                        <p className="font-semibold">
+                          <span className="text-primary-600 font-bold mr-1">
+                            {product.price}
+                          </span>
+                          EGP
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p className="text-lg mt-4">
+                Your Total Order Price is{" "}
+                <span className="mx-1 font-bold text-primary-600">
+                  {order.totalOrderPrice}
+                </span>
+                EGP
+              </p>
+            </div>
+          ))}
+        </section>
+      ) : (
         <div className="flex justify-center items-center mx-auto">
           <div className="sk-folding-cube ">
-            <div className="sk-cube1 sk-cube" />
-            <div className="sk-cube2 sk-cube" />
-            <div className="sk-cube4 sk-cube" />
-            <div className="sk-cube3 sk-cube" />
+            <div className="sk-cube1 sk-cube"></div>
+            <div className="sk-cube2 sk-cube"></div>
+            <div className="sk-cube4 sk-cube"></div>
+            <div className="sk-cube3 sk-cube"></div>
           </div>
-        </div>
-      ) : (
-        <div className="container ">
-          {userOrders?.map((order) => (
-            <React.Fragment key={order?.id}>
-              <div className="my-5 mx-5">
-                <div className="text-2xl font-bold text-gray-600">
-                  Payment Method: {order?.paymentMethodType}
-                </div>
-                <div className="my-7">
-                  <div className="text-2xl font-bold text-gray-600">
-                    shipping address:
-                  </div>
-                  <div className="text-xl font-bold text-gray-600">
-                    City: {order?.shippingAddress.city}
-                  </div>
-                  <div className="text-xl font-bold text-gray-600">
-                    Details: {order?.shippingAddress.details}
-                  </div>
-                  <div className="text-xl font-bold text-gray-600">
-                    Phone: {order?.shippingAddress.phone}
-                  </div>
-                </div>
-                <div className="text-2xl font-bold text-gray-600">
-                  Total Price: {order?.totalOrderPrice} EGP
-                </div>
-              </div>
-              <section className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
-                <div className="mx-auto max-w-screen-xl px-4 lg:px-12">
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                      <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                          <th scope="col" className="px-6 py-3">
-                            Product
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                            Quantity
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                            Price
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {userOrders?.cartItems?.map((item) => {
-                          <tr className="border-b">
-                            <th
-                              scope="row"
-                              className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap"
-                            >
-                              <img
-                                src={item?.product?.imageCover}
-                                className="w-10 h-10 rounded-full"
-                                alt=""
-                              />
-                              <div className="ps-3">
-                                <div className="text-base font-semibold">
-                                  {item?.product?.title}
-                                </div>
-                                <div className="font-normal text-gray-500">
-                                  {item?.product?.category?.name}
-                                </div>
-                              </div>
-                            </th>
-                            <td className="px-6 py-4">{item?.count}</td>
-                            <td className="px-6 py-4">
-                              <div className="flex items-center">
-                                {item?.price * item?.count} EGP
-                              </div>
-                            </td>
-                          </tr>;
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </section>
-            </React.Fragment>
-          ))}
         </div>
       )}
     </>
