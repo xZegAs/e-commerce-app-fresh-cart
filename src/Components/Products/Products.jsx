@@ -89,7 +89,7 @@ export default function Products() {
             <div className="group relative w-full max-w-sm rounded-2xl glass-effect product-card-shadow transition-all duration-300 hover:translate-y-[-4px] hover:shadow-[0_8px_30px_rgb(0,0,0,0.3)]  ">
               {/* Image Container */}
               <Link
-                to={`productdetails/${product?.category?.name}/${product.id}`}
+                to={`/productdetails/${product?.category?.name}/${product.id}`}
               >
                 <div className="absolute aspect-[4/3] w-full overflow-hidden rounded-t-2xl" />
                 <div
