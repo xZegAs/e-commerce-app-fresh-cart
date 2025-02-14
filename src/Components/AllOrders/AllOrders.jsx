@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import style from "./AllOrders.module.css";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import PageTitleChange from "../PageTitleChange/PageTitleChange";
 
 export default function AllOrders() {
   const [userOrders, setUserOrders] = useState(null);
@@ -24,6 +25,7 @@ export default function AllOrders() {
 
   return (
     <>
+      <PageTitleChange title="All Orders" />
       {userOrders === null ? (
         <div className="flex justify-center items-center mx-auto">
           <div className="sk-folding-cube ">

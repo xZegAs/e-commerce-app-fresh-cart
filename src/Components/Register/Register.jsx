@@ -7,6 +7,7 @@ import * as yup from "yup";
 import axios from "axios";
 import { UserContext } from "../../Context/UserContext";
 import toast from "react-hot-toast";
+import PageTitleChange from "../PageTitleChange/PageTitleChange";
 
 export default function Register() {
   const { userLogin, setuserLogin } = useContext(UserContext);
@@ -74,6 +75,7 @@ export default function Register() {
 
   return (
     <>
+      <PageTitleChange title="Get Started" />
       <section className=" dark:bg-gray-900 py-8">
         <div className="flex flex-col items-center justify-center px-6 mx-auto md:h-screen lg:py-0">
           <Link

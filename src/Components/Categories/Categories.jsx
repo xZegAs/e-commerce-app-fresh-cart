@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import style from "./Categories.module.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import PageTitleChange from "../PageTitleChange/PageTitleChange";
 
 export default function Categories() {
   const [categories, setCategories] = useState(null);
@@ -24,6 +25,7 @@ export default function Categories() {
 
   return (
     <>
+      <PageTitleChange title="Categories" />
       {loading ? (
         <div className="flex justify-center items-center mx-auto">
           <div className="sk-folding-cube ">

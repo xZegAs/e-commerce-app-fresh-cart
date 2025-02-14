@@ -5,6 +5,7 @@ import axios from "axios";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import logo from "../../assets/freshcart-logo.svg";
+import PageTitleChange from "../PageTitleChange/PageTitleChange";
 
 export default function ForgotPassword() {
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ export default function ForgotPassword() {
 
   return (
     <>
+      <PageTitleChange title="Forgot Password" />
       <section className=" dark:bg-gray-900">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <Link

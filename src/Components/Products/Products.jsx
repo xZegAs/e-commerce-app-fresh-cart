@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import useProduct from "../../Hooks/useProduct";
 import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
+import PageTitleChange from "../PageTitleChange/PageTitleChange";
 
 export default function Products() {
   const [imgIsLoading, setimgIsLoading] = useState(true);
@@ -81,6 +82,7 @@ export default function Products() {
 
   return (
     <>
+      <PageTitleChange title="Products" />
       <div className="row">
         {data?.data?.data?.map((product) => (
           <div key={product.id} className="lg:w-1/4 p-2 md:w-1/3 sm:w-1/2 ">

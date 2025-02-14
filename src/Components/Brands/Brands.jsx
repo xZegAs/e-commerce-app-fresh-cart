@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import style from "./Brands.module.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import PageTitleChange from "../PageTitleChange/PageTitleChange";
 
 export default function Brands() {
   const [brands, setBrands] = React.useState(null);
@@ -21,6 +22,7 @@ export default function Brands() {
 
   return (
     <>
+      <PageTitleChange title="Brands" />
       {loading ? (
         <div className="flex justify-center items-center mx-auto">
           <div className="sk-folding-cube">

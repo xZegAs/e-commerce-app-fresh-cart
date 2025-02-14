@@ -6,6 +6,7 @@ import { Heart, ShoppingCart } from "lucide-react";
 import Slider from "react-slick";
 import toast from "react-hot-toast";
 import { CartContext } from "../../Context/CartContext";
+import PageTitleChange from "../PageTitleChange/PageTitleChange";
 
 export default function ProductDetails() {
   const { id, category } = useParams();
@@ -105,6 +106,7 @@ export default function ProductDetails() {
 
   return (
     <>
+      <PageTitleChange title={product?.title} />
       {product ? (
         <section className="py-8 mt-16 bg-white md:py-16 dark:bg-gray-900 antialiased">
           <div className="max-w-screen-xl px-4 mx-auto 2xl:px-0">

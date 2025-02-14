@@ -4,6 +4,7 @@ import { CartContext } from "../../Context/CartContext";
 import { ArrowRight, MoveRight, ShoppingCart, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import PageTitleChange from "../PageTitleChange/PageTitleChange";
 
 export default function Wishlist() {
   const {
@@ -49,6 +50,7 @@ export default function Wishlist() {
 
   return (
     <>
+      <PageTitleChange title="Wishlist" />
       {wishlist ? (
         <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
           <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
