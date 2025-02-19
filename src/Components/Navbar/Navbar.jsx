@@ -22,14 +22,14 @@ export default function Navbar() {
   return (
     <>
       <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 right-0 start-0 border-b border-gray-200 dark:border-gray-600">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 ">
           <Link
             to="/"
-            className="flex items-center space-x-3 rtl:space-x-reverse"
+            className="flex items-center space-x-3 rtl:space-x-reverse mx-auto md:mx-0"
           >
             <img src={logo} className="h-8" alt="FreshCart Logo" />
           </Link>
-          <div className="flex lg:order-2 space-x-3 lg:space-x-0 rtl:space-x-reverse">
+          <div className="flex lg:order-2 space-x-3 lg:space-x-0 rtl:space-x-reverse mx-auto md:mx-0">
             {userLogin !== null ? (
               <span
                 onClick={handleLogout}
@@ -39,18 +39,20 @@ export default function Navbar() {
               </span>
             ) : (
               <>
-                <Link
-                  className="text-emerald-700 bg-white hover:bg-emerald-800 hover:text-white  focus:outline-none  font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-gray-900 dark:text-white dark:hover:bg-emerald-700 dark:focus:ring-emerald-800 mx-1"
-                  to="/login"
-                >
-                  Login
-                </Link>
-                <Link
-                  className="text-white bg-emerald-700 hover:bg-emerald-800  focus:outline-none  font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800 mx-1"
-                  to="/register"
-                >
-                  Get started
-                </Link>
+                <div className="flex items-center justify-between flex-nowrap">
+                  <Link
+                    className="text-emerald-700 bg-white hover:bg-emerald-800 hover:text-white  focus:outline-none  font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-gray-900 dark:text-white dark:hover:bg-emerald-700 dark:focus:ring-emerald-800 mx-1 w-full "
+                    to="/login"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    className="text-white bg-emerald-700 hover:bg-emerald-800  focus:outline-none  font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800 mx-1 w-full "
+                    to="/register"
+                  >
+                    Register
+                  </Link>
+                </div>
               </>
             )}
 

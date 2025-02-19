@@ -9,7 +9,7 @@ export default function Layout() {
     <>
       <div className="flex flex-col min-h-screen justify-between items-center dark:bg-gray-900">
         <Navbar />
-        <div className="container items-center justify-center py-20">
+        <div className="container items-center justify-center py-20 mt-10 md:mt-0">
           <Outlet />
         </div>
         <Footer />
